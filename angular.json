@@ -2,13 +2,26 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "1893d547-fa80-461f-a8b7-2802ae7c3696"
   },
   "newProjectRoot": "projects",
   "projects": {
     "AngularSignalApp": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": { "type": "component" },
+        "@schematics/angular:service": { "type": "service" },
+        "@schematics/angular:directive": { "type": "directive" },
+        "@schematics/angular:class": { "type": "class" },
+        "@schematics/angular:interface": { "type": "interface" },
+        "@schematics/angular:enum": { "type": "enum" },
+        "@schematics/angular:pipe": { "typeSeparator": "." },
+        "@schematics/angular:guard": { "typeSeparator": "." },
+        "@schematics/angular:interceptor": { "typeSeparator": "." },
+        "@schematics/angular:resolver": { "typeSeparator": "." },
+        "@schematics/angular:module": { "typeSeparator": "." }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",

@@ -1,0 +1,65 @@
+﻿<header><a href="/" class="brand">◈ curated<span>.</span></a><span class="header-note">LESS SCROLLING. MORE
+    DISCOVERING.</span><span>The everyday collection ↗</span></header>
+<main>
+  <section class="intro"><span class="eyebrow">THOUGHTFULLY SELECTED / EVERYDAY ESSENTIALS</span>
+    <h1>Find your next<br><em>everyday favorite.</em></h1>
+    <p>Good things, all in one place. Explore a collection made for the way you live.</p>
+  </section>
+  <section aria-label="Product explorer">
+    <div class="toolbar">
+      <label class="search-label"><span aria-hidden="true">⌕</span><input type="search" placeholder="Search products…"
+          aria-label="Search products" [value]="searchTerm()"
+          (input)="searchTerm.set($any($event.target).value)"></label>
+      <label>Category<select [value]="selectedCategory()" (change)="selectedCategory.set($any($event.target).value)">
+          <option value="">All categories</option>@for (category of categories(); track category) {<option
+            [value]="category">{{ category }}</option>}
+        </select></label>
+      <label>Sort by<select [value]="selectedSort()" (change)="setSort($any($event.target).value)">
+          <option value="name-asc">Name: A to Z</option>
+          <option value="name-desc">Name: Z to A</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+        </select></label>
+    </div>
+    <div class="results-header">
+      <p aria-live="polite">@if (loading()) { Finding your favorites… } @else { <strong>{{ productCount() }}</strong>
+        products to explore }</p>@if (filtersActive()) {<button class="text-button" (click)="clearFilters()">Clear
+        filters ↺</button>}
+    </div>
+    <div [attr.aria-busy]="loading()">
+      @if (loading()) {
+      <div class="product-grid" role="status" aria-label="Loading products"><span class="sr-only">Loading
+          products...</span>@for (item of [1,2,3,4,5,6]; track item) {<div class="skeleton-card">
+          <div class="skeleton-image"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>}</div>
+      } @else if (error()) {
+      <div class="state-panel" role="alert"><span class="state-icon">!</span>
+        <h2>Let’s try that again.</h2>
+        <p>{{ error() }}</p><button class="primary-button" (click)="retry()">Retry loading products ↻</button>
+        <p>Turn off simulated errors before retrying.</p>
+      </div>
+      } @else if (showEmpty()) {
+      <div class="state-panel"><span class="state-icon">⌕</span>
+        <h2>No products found.</h2>
+        <p>Try another search or give your filters a fresh start.</p><button class="primary-button"
+          (click)="clearFilters()">Clear filters</button>
+      </div>
+      } @else {
+      <div class="product-grid">@for (product of sortedProducts(); track product.id) {<article class="product-card">
+          <div class="product-image" [attr.data-category]="product.category"><span role="img"
+              [attr.aria-label]="product.title">{{ product.image }}</span></div>
+          <div class="product-meta"><span class="category">{{ product.category }}</span><span class="price">{{
+              product.price | currency:'USD':'symbol':'1.0-0' }}</span></div>
+          <h2>{{ product.title }}</h2>
+          <p>{{ product.description }}</p>
+        </article>}</div>
+      }
+    </div>
+  </section>
+  <aside class="demo-panel"><span><strong>API playground</strong> · Mock responses arrive in 600ms.</span><label><input
+        type="checkbox" [checked]="simulateError()" (change)="simulateError.set($any($event.target).checked)"> Simulate
+      request errors</label><button class="text-button" (click)="retry()">Send request ↗</button></aside>
+  <footer><span>Everyday things. A little more considered.</span><span>BUILT WITH SIGNALS + RXJS</span></footer>
+</main>
